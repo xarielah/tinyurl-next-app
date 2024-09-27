@@ -1,24 +1,25 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+"use client";
+import { useState } from "react";
+import CreatedUrl from "./components/shorten/created-url";
+import ShortenURL from "./components/shorten/shorten-url";
+
+export interface IShortenedURLResult {
+  originalUrl: string;
+  shortId: string;
+}
 
 export default function Home() {
+  const [createdUrl, setCreatedUrl] = useState<IShortenedURLResult | null>(
+    null
+  );
+
+  const resetCreatedUrl = () => setCreatedUrl(null);
+
+  if (createdUrl)
+    return <CreatedUrl result={createdUrl} reset={resetCreatedUrl} />;
   return (
     <div className="w-full max-w-md space-y-6 text-center">
-      <h1 className="text-4xl font-bold tracking-tighter sm:text-6xl">
-        Shorten Your URL
-      </h1>
-      <p className="text-muted-foreground">
-        Paste your long URL below and we'll shorten it for you in seconds.
-      </p>
-      <form className="flex space-x-2">
-        <Input
-          type="url"
-          placeholder="Enter your long URL here"
-          className="flex-grow"
-          required
-        />
-        <Button type="submit">Shorten</Button>
-      </form>
+      <ShortenURL setCreatedUrl={(data) => setCreatedUrl(data)} />
     </div>
   );
 }

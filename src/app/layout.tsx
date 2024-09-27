@@ -1,12 +1,12 @@
 import { getSessionAction } from "@/actions/get-session.action";
+import { Toaster } from "@/components/ui/toaster";
 import StateWrapper from "@/wrappers/state-wrapper";
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
-import Footer from "./components/core/footer";
+import { Noto_Sans as Font } from "next/font/google";
 import Header from "./components/core/header";
 import "./globals.css";
 
-const font = Roboto({ weight: "400", style: "normal", subsets: ["latin"] });
+const font = Font({ weight: "400", style: "normal", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "TinyURL",
@@ -29,8 +29,8 @@ export default async function RootLayout({
           <Header />
           <main className="flex-grow flex items-center justify-center px-6">
             {children}
+            <Toaster />
           </main>
-          <Footer />
         </body>
       </html>
     </StateWrapper>

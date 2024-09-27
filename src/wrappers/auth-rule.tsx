@@ -1,27 +1,36 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppState } from "./state-wrapper";
 
 interface IAuthRule {
   children?: React.ReactNode;
-  allowAnonymous?: boolean;
   mustBe?: "authenticated" | "unauthenticated";
 }
 
-export default function AuthRule({
-  children,
-  allowAnonymous,
-  mustBe,
-}: IAuthRule) {
-  if (allowAnonymous) return <>{children}</>;
-  const appState = useContext(AppState);
-  const { user } = appState;
-  if (user === undefined) return <></>;
-  if (user === null && mustBe === "unauthenticated") return <>{children}</>;
-  if (user && mustBe === "authenticated") return <>{children}</>;
+export default function AuthRule({ children, mustBe }: IAuthRule) {
+  const [showPage, setShowPage] = useState<boolean | null>(null);
+  const { user } = useContext(AppState);
   const router = useRouter();
-  router.replace("/");
-  return <div>Loading...</div>;
+
+  useEffect(() => {
+    if (
+      (user === null && mustBe === "authenticated") ||
+      (user && mustBe === "unauthenticated")
+    ) {
+      setShowPage(false);
+    } else {
+      setShowPage(true);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (showPage === false) {
+      router.replace("/");
+    }
+  }, [showPage]);
+
+  if (showPage === null) return <></>;
+  if (showPage) return <>{children}</>;
 }

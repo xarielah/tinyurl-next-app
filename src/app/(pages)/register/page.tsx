@@ -40,9 +40,7 @@ export default function Register() {
     resetMsgs();
     await authService
       .register(fields)
-      .then(() => {
-        setSuccess("Account created successfully!");
-      })
+      .then(() => setSuccess("Account created successfully!"))
       .catch((err) => {
         const errs = err.response.data.errors;
         if (err.status === 400 && Array.isArray(errs)) {
