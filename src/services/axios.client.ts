@@ -1,6 +1,7 @@
+import { appConfig } from "@/lib/appConfig";
 import axios from "axios";
 
 export const axiosClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: appConfig.apiBaseUrl,
   withCredentials: true,
 });

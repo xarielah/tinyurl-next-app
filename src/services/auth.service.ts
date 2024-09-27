@@ -1,4 +1,4 @@
-import { axiosClient } from "./axios-client";
+import { axiosClient } from "./axios.client";
 
 export type ILoginPayload = {
   username: string;
