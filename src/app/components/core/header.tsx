@@ -33,7 +33,7 @@ export default function Header() {
   const { user } = useContext(AppState);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
-    <nav className="bg-background">
+    <nav className="bg-background w-full fixed">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">

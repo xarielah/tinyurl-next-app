@@ -1,10 +1,11 @@
 "use server";
+import { appConfig } from "@/lib/appConfig";
 import { cookies } from "next/headers";
 
 export default async function logout() {
   try {
     const accessToken = cookies().get("access_token")?.value || "";
-    await fetch("http://localhost:3000/api/auth/logout", {
+    await fetch(appConfig.apiBaseUrl + "/auth/logout", {
       method: "POST",
       credentials: "include",
       headers: {

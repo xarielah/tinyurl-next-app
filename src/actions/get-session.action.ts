@@ -1,11 +1,12 @@
 "use server";
 
+import { appConfig } from "@/lib/appConfig";
 import { cookies } from "next/headers";
 
 export const getSessionAction = async () => {
   try {
     const accessToken = cookies().get("access_token")?.value || "";
-    const result = await fetch("http://localhost:3000/api/auth/session", {
+    const result = await fetch(appConfig.apiBaseUrl + "/auth/session", {
       method: "POST",
       credentials: "include",
       headers: {
