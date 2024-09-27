@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import * as authService from "@/services/auth.service";
+import AuthRule from "@/wrappers/auth-rule";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -53,60 +54,62 @@ export default function Register() {
   };
 
   return (
-    <div className="w-full max-w-md space-y-6">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-          Create an Account
-        </h1>
-        <p className="mt-2 text-muted-foreground">
-          Sign up to start shortening your URLs
+    <AuthRule mustBe="unauthenticated">
+      <div className="w-full max-w-md space-y-6">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            Create an Account
+          </h1>
+          <p className="mt-2 text-muted-foreground">
+            Sign up to start shortening your URLs
+          </p>
+        </div>
+        {errMsg && <Alert variant="destructive">{errMsg}</Alert>}
+        {success && <Alert>{success}</Alert>}
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <div className="space-y-2">
+            <Label htmlFor="username">Username</Label>
+            <Input
+              onChange={(e) => handleChange(e, "username")}
+              id="username"
+              value={fields.username}
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              onChange={(e) => handleChange(e, "email")}
+              id="email"
+              value={fields.email}
+              type="email"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              onChange={(e) => handleChange(e, "password")}
+              id="password"
+              value={fields.password}
+              type="password"
+              placeholder="Create a password"
+              required
+            />
+          </div>
+          <Button type="submit" className="w-full">
+            Register
+          </Button>
+        </form>
+        <p className="text-center text-sm text-muted-foreground">
+          Already have an account?{" "}
+          <Link href="/login" className="text-primary hover:underline">
+            Sign in
+          </Link>
         </p>
       </div>
-      {errMsg && <Alert variant="destructive">{errMsg}</Alert>}
-      {success && <Alert>{success}</Alert>}
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <div className="space-y-2">
-          <Label htmlFor="username">Username</Label>
-          <Input
-            onChange={(e) => handleChange(e, "username")}
-            id="username"
-            value={fields.username}
-            placeholder="Enter your username"
-            required
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            onChange={(e) => handleChange(e, "email")}
-            id="email"
-            value={fields.email}
-            type="email"
-            placeholder="Enter your email"
-            required
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
-          <Input
-            onChange={(e) => handleChange(e, "password")}
-            id="password"
-            value={fields.password}
-            type="password"
-            placeholder="Create a password"
-            required
-          />
-        </div>
-        <Button type="submit" className="w-full">
-          Register
-        </Button>
-      </form>
-      <p className="text-center text-sm text-muted-foreground">
-        Already have an account?{" "}
-        <Link href="/login" className="text-primary hover:underline">
-          Sign in
-        </Link>
-      </p>
-    </div>
+    </AuthRule>
   );
 }

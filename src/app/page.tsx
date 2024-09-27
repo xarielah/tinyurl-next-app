@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 export default function Home() {
   return (
     <div className="w-full max-w-md space-y-6 text-center">
-      <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+      <h1 className="text-4xl font-bold tracking-tighter sm:text-6xl">
         Shorten Your URL
       </h1>
       <p className="text-muted-foreground">
