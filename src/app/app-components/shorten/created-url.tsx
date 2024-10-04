@@ -1,5 +1,5 @@
 "use client";
-import { IShortenedURLResult } from "@/app/page";
+import { IShortenedURLResult } from "@/app/(pages)/page";
 import { Button } from "@/components/ui/button";
 import {
   Card,
