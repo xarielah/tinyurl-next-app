@@ -3,8 +3,11 @@ import { IShortenedURLResult } from "@/app/page";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 import * as shortenService from "@/services/shorten.service";
-import { useState } from "react";
+import { AppState } from "@/wrappers/state-wrapper";
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
 
 interface IShortenURL {
   setCreatedUrl: (data: IShortenedURLResult) => void;
@@ -14,21 +17,38 @@ export default function ShortenURL({ setCreatedUrl }: IShortenURL) {
   const [url, setUrl] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { user } = useContext(AppState);
+  const router = useRouter();
+  const { toast } = useToast();
 
   const onUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(e.target.value.replace(" ", ""));
   };
 
+  const rerouteUnauthorized = () => {
+    toast({
+      title: "You must be logged in to shorten a URL!",
+      variant: "destructive",
+      description: "Please log in or sign up to shorten a URL.",
+    });
+    return router.push("/login");
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!user) return rerouteUnauthorized();
     setLoading(true);
     setErrorMessage("");
     shortenService
       .createShortenURL(url)
-      .then((res) => ({
-        originalUrl: res.data.url,
-        shortId: res.data.shortId,
-      }))
+      .then((res) => {
+        if (res.status === 401) {
+          rerouteUnauthorized();
+          throw new Error("Unauthorized");
+        }
+        const { url, shortId } = res.data;
+        return { originalUrl: url, shortId };
+      })
       .then((data) => setCreatedUrl(data))
       .then(() => setUrl(""))
       .catch((err) => {

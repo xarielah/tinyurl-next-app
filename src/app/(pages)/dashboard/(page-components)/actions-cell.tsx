@@ -1,5 +1,5 @@
 "use state";
-import DeleteURLDialog from "@/app/components/shorten/delete-url-dialog";
+import DeleteURLDialog from "@/app/app-components/shorten/delete-url-dialog";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

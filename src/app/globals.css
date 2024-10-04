@@ -22,6 +22,10 @@ body {
   }
 }
 
+a:hover {
+  color: var(--foreground);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -50,6 +54,10 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+}
+
+.tech-icons {
+  @apply hover:scale-[1.1] ease-in-out duration-300 p-4 rounded-md hover:bg-gray-50/70 hover:shadow-xl;
 }
 
 @layer base {

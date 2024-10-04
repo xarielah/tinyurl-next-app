@@ -62,7 +62,9 @@ export default function CreatedUrl({ result, reset }: ICreateUrl) {
             <h3 className="text-sm font-medium text-muted-foreground mb-1">
               Original URL:
             </h3>
-            <p className="text-sm break-all">{originalUrl}</p>
+            <p className="text-sm break-all">
+              <Link href={originalUrl}>{originalUrl}</Link>
+            </p>
           </div>
           <div>
             <h3 className="text-sm font-medium text-muted-foreground mb-1">

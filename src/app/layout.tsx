@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import StateWrapper from "@/wrappers/state-wrapper";
 import type { Metadata } from "next";
 import { Noto_Sans as Font } from "next/font/google";
-import Header from "./components/core/header";
+import Header from "./app-components/core/header";
 import "./globals.css";
 
 const font = Font({ weight: "400", style: "normal", subsets: ["latin"] });
