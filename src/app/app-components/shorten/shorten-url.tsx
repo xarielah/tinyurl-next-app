@@ -1,5 +1,5 @@
 "use client";
-import { IShortenedURLResult } from "@/app/page";
+import { IShortenedURLResult } from "@/app/(pages)/page";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -65,7 +65,7 @@ export default function ShortenURL({ setCreatedUrl }: IShortenURL) {
 
   return (
     <>
-      <h1 className="text-4xl font-bold tracking-tighter sm:text-6xl">
+      <h1 className="text-4xl font-bold tracking-tighter mx-auto sm:text-6xl w-max">
         Shorten Your URL
       </h1>
       <p className="text-muted-foreground">

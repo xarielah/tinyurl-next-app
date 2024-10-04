@@ -12,6 +12,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Row } from "@tanstack/react-table";
+import Link from "next/link";
 import { useState } from "react";
 import { ShortenLink } from "./data-table.types";
 
@@ -48,10 +49,10 @@ export default function ActionsCell({ row }: IActionsCell) {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem onClick={copyLink}>Copy Link</DropdownMenuItem>
-          <DropdownMenuItem>Visit</DropdownMenuItem>
-          <DropdownMenuSeparator />
           <DropdownMenuLabel>Admin</DropdownMenuLabel>
-          <DropdownMenuItem>Analytics</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href={`/dashboard/${link.shortId}`}>Analytics</Link>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="text-red-500 hover:text-red-600"

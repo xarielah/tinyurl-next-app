@@ -1,24 +1,13 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { AppState } from "@/wrappers/state-wrapper";
-import { LinkIcon, Menu, X } from "lucide-react";
+import { LinkIcon } from "lucide-react";
 import Link from "next/link";
 import { useContext, useState } from "react";
-import {
-  AuthenticatedDropdownContent,
-  LoginDropdownItem,
-  UserIsNotSigned,
-  UserSignedIn,
-} from "./auth-options";
+import DesktopMenu from "./desktop-menu";
+import MobileMenu from "./mobile-menu";
 
-const navItems: NavItem[] = [
+export const navItems: NavItem[] = [
   { name: "Home", href: "/" },
   { name: "About This Project", href: "/about" },
 ];
@@ -45,59 +34,10 @@ export default function Header() {
             </Link>
           </div>
           <div className="hidden md:flex items-center">
-            <div className="ml-10 flex items-center space-x-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-foreground hover:bg-accent hover:text-accent-foreground px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  {item.name}
-                </Link>
-              ))}
-              {user ? <UserSignedIn user={user} /> : <UserIsNotSigned />}
-            </div>
+            <DesktopMenu />
           </div>
           <div className="md:hidden">
-            <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
-                  {isOpen ? (
-                    <X className="h-6 w-6" />
-                  ) : (
-                    <Menu className="h-6 w-6" />
-                  )}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-[200px]">
-                {user ? (
-                  <>
-                    <AuthenticatedDropdownContent />
-                    <DropdownMenuSeparator />
-                  </>
-                ) : (
-                  <>
-                    <LoginDropdownItem />
-                    <DropdownMenuSeparator />
-                  </>
-                )}
-                {navItems.map((item) => (
-                  <DropdownMenuItem
-                    className="cursor-pointer"
-                    key={item.name}
-                    asChild
-                  >
-                    <Link
-                      href={item.href}
-                      className="w-full"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} />
           </div>
         </div>
       </div>

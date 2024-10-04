@@ -82,7 +82,7 @@ export default function About() {
   return (
     <section>
       <TechDrawer data={data} close={close} isOpen={drawerOpen} />
-      <div className="max-w-xl space-y-8 mx-auto">
+      <div className="max-w-3xl space-y-8 mx-auto">
         <h1 className="font-bold text-4xl mb-2">About</h1>
         <p>
           TinyURL is a shortening urls service that{" "}
@@ -93,26 +93,51 @@ export default function About() {
           Next.js server actions, authentication and governing data.
         </p>
         <p>The project includes the following technologies:</p>
-      </div>
-      <div className="flex items-center gap-12 flex-wrap justify-around mt-12">
-        <button className="tech-icons" onClick={() => openTechInfo("reactjs")}>
-          <ReactJS />
-        </button>
-        <button className="tech-icons" onClick={() => openTechInfo("ts")}>
-          <TypeScript />
-        </button>
-        <button className="tech-icons" onClick={() => openTechInfo("redis")}>
-          <Redis />
-        </button>
-        <button className="tech-icons" onClick={() => openTechInfo("mongodb")}>
-          <MongoDB />
-        </button>
-        <button className="tech-icons" onClick={() => openTechInfo("nextjs")}>
-          <NextJS />
-        </button>
-        <button className="tech-icons" onClick={() => openTechInfo("express")}>
-          <ExpressJS />
-        </button>
+        <div className="flex flex-col md:flex-row justify-between">
+          <div className="flex flex-col gap-2 space-y-8">
+            <h2 className="font-bold text-2xl">Programming Languages:</h2>
+            <article className="mt-8">
+              <button className="tech-icons" onClick={() => openTechInfo("ts")}>
+                <TypeScript />
+              </button>
+            </article>
+          </div>
+          <div className="flex flex-col gap-2 space-y-8 mt-8 md:mt-0">
+            <h2 className="font-bold text-2xl">Frontend Technologies:</h2>
+            <article className="space-x-2">
+              <button
+                className="tech-icons"
+                onClick={() => openTechInfo("nextjs")}
+              >
+                <NextJS />
+              </button>
+              <button
+                className="tech-icons"
+                onClick={() => openTechInfo("reactjs")}
+              >
+                <ReactJS />
+              </button>
+            </article>
+          </div>
+        </div>
+        <h2 className="font-bold text-2xl">Backend Technologies:</h2>
+        <article className="space-x-2">
+          <button className="tech-icons" onClick={() => openTechInfo("redis")}>
+            <Redis />
+          </button>
+          <button
+            className="tech-icons"
+            onClick={() => openTechInfo("mongodb")}
+          >
+            <MongoDB />
+          </button>
+          <button
+            className="tech-icons"
+            onClick={() => openTechInfo("express")}
+          >
+            <ExpressJS />
+          </button>
+        </article>
       </div>
     </section>
   );
@@ -137,12 +162,7 @@ function TechDrawer({ close, isOpen, data }: ITechDrawer) {
           </article>
         </DrawerHeader>
         <DrawerFooter>
-          <Button
-            asChild
-            variant="destructive"
-            className="w-max md:w-full mx-auto"
-            onClick={close}
-          >
+          <Button asChild className="w-max md:w-full mx-auto" onClick={close}>
             <DrawerClose>Close</DrawerClose>
           </Button>
         </DrawerFooter>
