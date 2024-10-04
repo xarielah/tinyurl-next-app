@@ -1,4 +1,4 @@
-import { ShortenLink } from "@/app/(pages)/dashboard/(page-components)/data-table";
+import { ShortenLink } from "@/app/(pages)/dashboard/(page-components)/data-table.types";
 import { axiosClient } from "./axios.client";
 
 export function createShortenURL(url: string) {
