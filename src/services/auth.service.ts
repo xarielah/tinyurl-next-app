@@ -1,3 +1,4 @@
+import { appConfig } from "@/lib/appConfig";
 import { axiosClient } from "./axios.client";
 
 export type ILoginPayload = {
@@ -14,7 +15,13 @@ export function getSession() {
 }
 
 export function login(data: ILoginPayload) {
-  return axiosClient.post("/auth/login", data);
+  // return axiosClient.post("/auth/login", data);
+  return fetch(appConfig.apiBaseUrl + "/auth/login", {
+    body: JSON.stringify(data),
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+  });
 }
 
 export function register(data: IRegisterPayload) {
