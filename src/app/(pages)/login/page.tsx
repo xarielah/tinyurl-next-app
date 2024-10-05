@@ -3,6 +3,7 @@ import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import * as authService from "@/services/auth.service";
 import AuthRule from "@/wrappers/auth-rule";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -42,10 +43,23 @@ export default function Login() {
       username: fields.username,
       password: fields.password,
     });
-    await fetch("/api/auth/login", {
-      body: payloadBody,
-      method: "POST",
-    })
+    // await fetch("/api/auth/login", {
+    //   body: payloadBody,
+    //   method: "POST",
+    // })
+    //   .then((res) => (res.ok ? null : Promise.reject(res)))
+    //   .then(() => {
+    //     setSuccess("Logged in successfully!");
+    //     setFields({ username: "", password: "" });
+    //     setTimeout(() => router.refresh(), 1000);
+    //   })
+    //   .catch((err) => {
+    //     if (err.status === 401) setErrMsg("Invalid username or password");
+    //     else setErrMsg("An error occurred. Please try again.");
+    //     setFields({ username: "", password: "" });
+    //   });
+    await authService
+      .login({ username: fields.username, password: fields.password })
       .then((res) => (res.ok ? null : Promise.reject(res)))
       .then(() => {
         setSuccess("Logged in successfully!");

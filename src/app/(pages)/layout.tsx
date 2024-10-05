@@ -18,7 +18,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { data: user } = await getSessionAction();
+  const { data: user } = await getSessionAction().catch(() => ({ data: null }));
 
   return (
     <StateWrapper user={user}>
