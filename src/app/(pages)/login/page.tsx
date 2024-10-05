@@ -47,7 +47,7 @@ export default function Login() {
       .then(() => {
         setSuccess("Logged in successfully!");
         setFields({ username: "", password: "" });
-        setTimeout(() => router.refresh(), 1500);
+        setTimeout(() => router.refresh(), 1000);
       })
       .catch((err) => {
         if (err.status === 401) setErrMsg("Invalid username or password");
