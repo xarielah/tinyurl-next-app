@@ -3,7 +3,6 @@ import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import * as authService from "@/services/auth.service";
 import AuthRule from "@/wrappers/auth-rule";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -39,11 +38,15 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     resetMsgs();
-    await authService
-      .login({
-        username: fields.username,
-        password: fields.password,
-      })
+    const payloadBody = JSON.stringify({
+      username: fields.username,
+      password: fields.password,
+    });
+    await fetch("/api/auth/login", {
+      body: payloadBody,
+      method: "POST",
+    })
+      .then((res) => (res.ok ? null : Promise.reject(res)))
       .then(() => {
         setSuccess("Logged in successfully!");
         setFields({ username: "", password: "" });

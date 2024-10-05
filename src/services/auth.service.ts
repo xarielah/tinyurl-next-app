@@ -16,7 +16,7 @@ export async function login(data: ILoginPayload) {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
-  }).then((res) => (res.ok ? null : Promise.reject(res)));
+  });
 }
 
 export function register(data: IRegisterPayload) {
