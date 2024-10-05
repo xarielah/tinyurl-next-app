@@ -3,7 +3,6 @@ import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import * as authService from "@/services/auth.service";
 import AuthRule from "@/wrappers/auth-rule";
 import Link from "next/link";
 import { useState } from "react";
@@ -20,11 +19,11 @@ export default function Register() {
     email: "",
     password: "",
   });
-  const [errMsg, setErrMsg] = useState<string>("");
+  const [errMsg, setErrMsg] = useState<string[]>([]);
   const [success, setSuccess] = useState<string>("");
 
   const resetMsgs = () => {
-    setErrMsg("");
+    setErrMsg([]);
     setSuccess("");
   };
 
@@ -38,15 +37,26 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     resetMsgs();
-    await authService
-      .register(fields)
-      .then(() => setSuccess("Account created successfully!"))
+    const payloadBody = {
+      username: fields.username,
+      email: fields.email,
+      password: fields.password,
+    };
+    await fetch("/api/auth/register", {
+      body: JSON.stringify(payloadBody),
+      method: "POST",
+      credentials: "include",
+    })
+      .then(async (res) => {
+        const result = await res.json();
+        if (res.ok) return setSuccess("Account created successfully!");
+        return Promise.reject(result);
+      })
       .catch((err) => {
-        const errs = err.response.data.errors;
-        if (err.status === 400 && Array.isArray(errs)) {
-          const msg = errs.map((e) => e.message).join("\n");
+        if (Array.isArray(err.errors)) {
+          const msg = err.errors.map((e: any) => e.message);
           setErrMsg(msg);
-        } else setErrMsg("An error occurred. Please try again.");
+        } else setErrMsg(["An error occurred. Please try again."]);
         setFields({ username: "", email: "", password: "" });
       });
   };
@@ -62,7 +72,15 @@ export default function Register() {
             Sign up to start shortening your URLs
           </p>
         </div>
-        {errMsg && <Alert variant="destructive">{errMsg}</Alert>}
+        {errMsg.length > 0 && (
+          <Alert variant="destructive">
+            <ul className="list-disc pl-4">
+              {errMsg.map((m, i) => (
+                <li key={i}>{m}</li>
+              ))}
+            </ul>
+          </Alert>
+        )}
         {success && <Alert>{success}</Alert>}
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
