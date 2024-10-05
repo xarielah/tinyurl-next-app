@@ -10,14 +10,14 @@ export async function POST(req: Request) {
     password: body.password || "",
   };
   const result = await authService.register(payloadRegister);
-  if (result.status != 201) return Response.json(result, { status: 401 });
-  const tokens = await result.json();
+  const data = await result.json();
+  if (result.status != 201) return Response.json(data, { status: 401 });
   const c = cookies();
-  c.set("access_token", tokens.access_token, {
+  c.set("access_token", data.access_token, {
     secure: true,
     httpOnly: true,
   });
-  c.set("refresh_token", tokens.refresh_token, {
+  c.set("refresh_token", data.refresh_token, {
     secure: true,
     httpOnly: true,
   });
