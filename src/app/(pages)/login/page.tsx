@@ -59,8 +59,8 @@ export default function Login() {
     //     setFields({ username: "", password: "" });
     //   });
     await authService
-      .login({ username: fields.username, password: fields.password })
-      .then((res) => (res.ok ? null : Promise.reject(res)))
+      .loginInternal({ username: fields.username, password: fields.password })
+      .then((res) => (res.status === 200 ? null : Promise.reject(res)))
       .then(() => {
         setSuccess("Logged in successfully!");
         setFields({ username: "", password: "" });

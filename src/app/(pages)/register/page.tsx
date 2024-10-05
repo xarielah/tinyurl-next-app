@@ -3,6 +3,7 @@ import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import * as authService from "@/services/auth.service";
 import AuthRule from "@/wrappers/auth-rule";
 import Link from "next/link";
 import { useState } from "react";
@@ -42,15 +43,12 @@ export default function Register() {
       email: fields.email,
       password: fields.password,
     };
-    await fetch("/api/auth/register", {
-      body: JSON.stringify(payloadBody),
-      method: "POST",
-      credentials: "include",
-    })
-      .then(async (res) => {
-        const result = await res.json();
-        if (res.ok) return setSuccess("Account created successfully!");
-        return Promise.reject(result);
+    await authService
+      .registerInternal(payloadBody)
+      .then((res) => {
+        if (res.status === 201)
+          return setSuccess("Account created successfully!");
+        else return Promise.reject(res.data);
       })
       .catch((err) => {
         if (Array.isArray(err.errors)) {

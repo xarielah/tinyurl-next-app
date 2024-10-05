@@ -1,5 +1,11 @@
 import * as authService from "@/services/auth.service";
+import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { cookies } from "next/headers";
+
+const cookieOptions: Partial<ResponseCookie> = {
+  secure: true,
+  httpOnly: true,
+};
 
 export async function POST(req: Request) {
   // Handle login
@@ -8,16 +14,18 @@ export async function POST(req: Request) {
     username: body.username || "",
     password: body.password || "",
   });
-  if (result.status != 200)
+  if (result.status !== 200)
     return Response.json({ message: "Login failed" }, { status: 401 });
-  const data = await result.json();
-  const { access_token, refresh_token } = data;
-  const cookieOptions = {
-    secure: true,
-    httpOnly: true,
-  };
+  const { access_token, refresh_token } = result.data;
+
   const c = cookies();
-  c.set("access_token", access_token, cookieOptions);
-  c.set("refresh_token", refresh_token, cookieOptions);
+  c.set("access_token", access_token, {
+    ...cookieOptions,
+    maxAge: 60 * 60 * 1000,
+  });
+  c.set("refresh_token", refresh_token, {
+    ...cookieOptions,
+    maxAge: 60 * 60 * 24 * 1000,
+  });
   return Response.json({ message: "Login successful" });
 }

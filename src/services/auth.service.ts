@@ -1,4 +1,6 @@
-import { appConfig } from "@/lib/appConfig";
+import { AxiosResponse } from "axios";
+import { axiosInternal } from "./axios-internal.client";
+import { axiosClient } from "./axios.client";
 
 export type ILoginPayload = {
   username: string;
@@ -9,21 +11,31 @@ export type IRegisterPayload = {
   email: string;
 } & ILoginPayload;
 
-export async function login(data: ILoginPayload) {
-  // return axiosClient.post("/auth/login", data);
-  return fetch(appConfig.apiBaseUrl + "/auth/login", {
-    body: JSON.stringify(data),
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-  });
+type Tokens = {
+  access_token: string;
+  refresh_token: string;
+};
+
+export async function login(
+  data: ILoginPayload
+): Promise<AxiosResponse<Tokens>> {
+  return axiosClient.post("/auth/login", data);
 }
 
-export function register(data: IRegisterPayload) {
-  return fetch(appConfig.apiBaseUrl + "/auth/register", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-  });
+export function register(
+  data: IRegisterPayload
+): Promise<AxiosResponse<Tokens>> {
+  return axiosClient.post("/auth/register", data);
+}
+
+export function loginInternal(
+  data: ILoginPayload
+): Promise<AxiosResponse<void>> {
+  return axiosInternal.post("/api/auth/login", data);
+}
+
+export function registerInternal(
+  data: IRegisterPayload
+): Promise<AxiosResponse<void>> {
+  return axiosInternal.post("/api/auth/register", data);
 }

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { appConfig } from "@/lib/appConfig";
 import { Check, Clipboard, ExternalLink, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -34,7 +35,7 @@ export default function CreatedUrl({ result, reset }: ICreateUrl) {
   }, []);
 
   const originalUrl = result.originalUrl;
-  const shortenedUrl = `${process.env.NEXT_PUBLIC_REDIRECT_BASE}/${result.shortId}`;
+  const shortenedUrl = `${appConfig.redirectBaseUrl}/${result.shortId}`;
 
   const copyToClipboard = async () => {
     try {
