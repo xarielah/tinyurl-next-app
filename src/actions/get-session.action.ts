@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 export const getSessionAction = async () => {
   try {
     const accessToken = cookies().get("access_token")?.value || "";
+    console.log(cookies().getAll());
     const result = await fetch(appConfig.apiBaseUrl + "/auth/session", {
       method: "POST",
       credentials: "include",
