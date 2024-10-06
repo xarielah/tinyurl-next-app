@@ -1,4 +1,3 @@
-import { getSessionAction } from "@/actions/get-session.action";
 import { Toaster } from "@/components/ui/toaster";
 import StateWrapper from "@/wrappers/state-wrapper";
 import type { Metadata } from "next";
@@ -18,10 +17,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { data: user } = await getSessionAction().catch(() => ({ data: null }));
-
   return (
-    <StateWrapper user={user}>
+    <StateWrapper>
       <html lang="en">
         <body
           className={`${font.className} antialiased flex flex-col min-h-screen`}

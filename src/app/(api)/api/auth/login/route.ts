@@ -19,13 +19,7 @@ export async function POST(req: Request) {
   const { access_token, refresh_token } = result.data;
 
   const c = cookies();
-  c.set("access_token", access_token, {
-    ...cookieOptions,
-    maxAge: 60 * 60 * 1000,
-  });
-  c.set("refresh_token", refresh_token, {
-    ...cookieOptions,
-    maxAge: 60 * 60 * 24 * 1000,
-  });
+  c.set("access_token", access_token, authService.accessCookieOptions);
+  c.set("refresh_token", refresh_token, authService.refreshCookieOptions);
   return Response.json({ message: "Login successful" });
 }

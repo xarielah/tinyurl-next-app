@@ -1,15 +1,15 @@
 "use client";
 
+import * as authService from "@/services/auth.service";
 import { createContext, useEffect, useState } from "react";
 
 interface IStateWrapper {
   children?: React.ReactNode;
-  user: User | undefined | null;
 }
 
 export interface IAppContext {
-  user: User | undefined | null;
-  setUser: (user: User) => void;
+  user: authService.SessionUser | undefined | null;
+  setUser: (user: authService.SessionUser) => void;
   removeUser: () => void;
 }
 
@@ -21,14 +21,20 @@ export const AppState = createContext<IAppContext>({
   removeUser: dummyFn,
 });
 
-export default function StateWrapper({ children, user }: IStateWrapper) {
-  const [sessionUser, setSessionUser] = useState<User | null | undefined>();
+export default function StateWrapper({ children }: IStateWrapper) {
+  const [sessionUser, setSessionUser] = useState<
+    authService.SessionUser | null | undefined
+  >(undefined);
 
   useEffect(() => {
-    setUser(user || null);
-  }, [user]);
+    authService
+      .sessionInteral()
+      .then((res) => setUser(res.data))
+      .catch(() => setUser(null));
+  }, []);
 
-  const setUser = (user: User | null) => setSessionUser(user);
+  const setUser = (user: authService.SessionUser | null) =>
+    setSessionUser(user);
   const removeUser = () => setSessionUser(undefined);
 
   const value = {
@@ -40,14 +46,8 @@ export default function StateWrapper({ children, user }: IStateWrapper) {
   return <AppState.Provider value={value}>{children}</AppState.Provider>;
 }
 
-export type User = {
-  id: string;
-  email: string;
-  username: string;
-};
-
 export type Session = {
-  user: User;
+  user: authService.SessionUser | undefined | null;
   setUser: (user: any) => void;
   removeUser: () => void;
 };
