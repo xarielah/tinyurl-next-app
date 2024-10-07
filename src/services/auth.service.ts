@@ -78,6 +78,7 @@ export const accessCookieOptions: Partial<ResponseCookie> = {
   secure: true,
   httpOnly: true,
   sameSite: "none",
+  domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
   maxAge: 60 * 60 * 1000,
 };
 
@@ -85,5 +86,6 @@ export const refreshCookieOptions: Partial<ResponseCookie> = {
   secure: true,
   httpOnly: true,
   sameSite: "none",
+  domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
   maxAge: 60 * 60 * 1000 * 24,
 };
