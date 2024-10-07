@@ -1,11 +1,5 @@
 import * as authService from "@/services/auth.service";
-import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { cookies } from "next/headers";
-
-const cookieOptions: Partial<ResponseCookie> = {
-  secure: true,
-  httpOnly: true,
-};
 
 export async function POST(req: Request) {
   // Handle login

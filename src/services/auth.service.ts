@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { axiosInternal } from "./axios-internal.client";
 import { axiosClient } from "./axios.client";
 
@@ -73,14 +74,16 @@ export function refreshTokenInternal(token: string) {
   });
 }
 
-export const accessCookieOptions = {
+export const accessCookieOptions: Partial<ResponseCookie> = {
   secure: true,
   httpOnly: true,
+  sameSite: "none",
   maxAge: 60 * 60 * 1000,
 };
 
-export const refreshCookieOptions = {
+export const refreshCookieOptions: Partial<ResponseCookie> = {
   secure: true,
   httpOnly: true,
+  sameSite: "none",
   maxAge: 60 * 60 * 1000 * 24,
 };

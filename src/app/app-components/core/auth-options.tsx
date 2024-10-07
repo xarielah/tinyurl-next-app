@@ -8,14 +8,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SessionUser } from "@/services/auth.service";
 import AuthRule from "@/wrappers/auth-rule";
-import { User } from "@/wrappers/state-wrapper";
 import { UserCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface IUserSignedIn {
-  user: User;
+  user: SessionUser;
 }
 
 export function UserSignedIn({ user }: IUserSignedIn) {
