@@ -56,7 +56,7 @@ export default function LinkDashboard({ params }: ILinkDashboard) {
   useEffect(() => {
     shortenService
       .getReportsByShortId(shortenId)
-      .then((res) => console.log(res))
+      .then((res) => setReport(res.data.result))
       .catch(() => setReport(null))
       .finally(() => setLoading(false));
   }, []);
@@ -81,14 +81,15 @@ export default function LinkDashboard({ params }: ILinkDashboard) {
           </CardHeader>
           <CardContent>
             <p>
-              <strong>Short URL:</strong> https://short.link/{shortenId}
+              <strong>Short URL:</strong> https://tinyurl.xarielah.dev/r/
+              {shortenId}
             </p>
             <p>
               <strong>Original URL:</strong>{" "}
               https://www.example.com/very/long/url
             </p>
             <p>
-              <strong>Total Clicks:</strong> 150
+              <strong>Total Clicks:</strong> {report.count}
             </p>
             <p>
               <strong>Created On:</strong> June 1, 2023
