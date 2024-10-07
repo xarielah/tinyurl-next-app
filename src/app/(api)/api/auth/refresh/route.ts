@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-export default function POST(req: Request) {
+export async function POST(req: Request) {
   const c = cookies();
   const refreshToken = c.get("refresh_token")?.value || "";
   if (!refreshToken) {

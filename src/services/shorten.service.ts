@@ -3,7 +3,16 @@ import { AxiosResponse } from "axios";
 import { axiosClient } from "./axios.client";
 
 export function createShortenURL(url: string) {
-  return axiosClient.post("/shorten/new", { url: url });
+  return axiosClient.post(
+    "/shorten/new",
+    { url: url },
+    {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 }
 
 export function getShortenedLinks() {

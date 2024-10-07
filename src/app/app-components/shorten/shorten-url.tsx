@@ -60,6 +60,8 @@ export default function ShortenURL({ setCreatedUrl }: IShortenURL) {
 
   const setErrors = (err: any) => {
     if (err.status === 400) setErrorMessage("URL must be a valid URL address");
+    else if (err.status === 401)
+      setErrorMessage("You must be logged in to shorten a URL");
     else setErrorMessage("An error occurred. Please try again.");
   };
 
