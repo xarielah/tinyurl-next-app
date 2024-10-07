@@ -8,6 +8,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import * as shortenService from "@/services/shorten.service";
 import { useState } from "react";
 
 interface IDeleteURLDialog {
@@ -22,16 +24,24 @@ export default function DeleteURLDialog({
   setAlertOpen,
 }: IDeleteURLDialog) {
   const [loading, setLoading] = useState<boolean>(false);
-  const mockPromise = (): Promise<void> => {
-    return new Promise((resolve) => setTimeout(resolve, 3000));
-  };
+  const { toast } = useToast();
 
   const handleDelete = () => {
     setLoading(true);
-    mockPromise().finally(() => {
-      setLoading(false);
-      setAlertOpen(false);
-    });
+    shortenService
+      .deleteShortenedLink(linkId)
+      .then(() => {
+        setAlertOpen(false);
+        window.location.reload();
+      })
+      .catch(() => {
+        toast({
+          title: "An error occurred",
+          variant: "destructive",
+          description: "Failed to delete the shortened URL.",
+        });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (

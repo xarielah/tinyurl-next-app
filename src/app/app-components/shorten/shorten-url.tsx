@@ -31,7 +31,7 @@ export default function ShortenURL({ setCreatedUrl }: IShortenURL) {
       variant: "destructive",
       description: "Please log in or sign up to shorten a URL.",
     });
-    return router.push("/login");
+    router.push("/login");
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
