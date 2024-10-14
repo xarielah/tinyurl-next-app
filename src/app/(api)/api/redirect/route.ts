@@ -1,15 +1,10 @@
 import { RedirectPayload } from "@/services/shorten.models";
 import * as shortenService from "@/services/shorten.service";
 import { geolocation } from "@vercel/functions";
-import { cookies } from "next/headers";
 import { RedirectActions } from "../../actions";
 
 export async function POST(req: Request) {
   try {
-    const access_token = cookies().get("access_token")?.value || "";
-    if (!access_token) {
-      return Response.json({ message: "No access token" }, { status: 401 });
-    }
     const body = await req.json();
     const payload = body.payload;
     const action = body.action;
@@ -24,14 +19,14 @@ export async function POST(req: Request) {
           longitude: longitude || "",
         },
       };
+      const secret_redirect_key = process.env.SECRET_REDIRECT_KEY || "";
       const result = await shortenService.getRedirectDataExternal(
         redirectPayload,
-        access_token
+        secret_redirect_key
       );
-      const resposeDto = {
-        url: result.data.url || null,
-      };
-      return Response.json(resposeDto);
+      const url = result.data.url;
+      if (!url) throw new Error(`No URL found for ${payload.shortId}`);
+      return Response.json({ url });
     } else {
       return Response.json(
         { message: "Actions is not allowed" },

@@ -7,7 +7,7 @@ import { ShortenLink } from "@/app/(pages)/dashboard/(page-components)/data-tabl
 import { AxiosResponse } from "axios";
 import { axiosInternal } from "./axios-internal.client";
 import { axiosClient } from "./axios.client";
-import { RedirectPayload, RedirectResult } from "./shorten.models";
+import { type RedirectPayload, type RedirectResult } from "./shorten.models";
 
 // Helper function
 
@@ -49,13 +49,13 @@ export function deleteShortenedLinkExternal(shortId: string, token: string) {
 
 export function getRedirectDataExternal(
   payload: RedirectPayload,
-  token: string
+  redirectKey: string
 ) {
-  return axiosClient.post<RedirectResult>(
-    `/redirect`,
-    payload,
-    _getTokenHeader(token)
-  );
+  return axiosClient.post<RedirectResult>(`/redirect`, payload, {
+    headers: {
+      "x-redirect-key": redirectKey,
+    },
+  });
 }
 
 // Internal calls are used for calling NextJS internal API.
