@@ -25,7 +25,7 @@ import {
   type ReportsResult,
   type ShortURLEvent,
 } from "./report-models";
-import { clicksByDateArray } from "./utils";
+import { clicksByCountryArray, clicksByDateArray } from "./utils";
 
 const countryDistMock = [
   { country: "USA", clicks: 45 },
@@ -67,7 +67,9 @@ export default function LinkDashboard({ params }: ILinkDashboard) {
         const clicksOverTimeData = clicksByDateArray(events);
         setClicksOverTime(clicksOverTimeData);
         // Set country distribution
-        setCountryDistribution([]);
+        const countryDistData = clicksByCountryArray(events);
+        console.log("🚀 ~ .then ~ countryDistData:", countryDistData);
+        setCountryDistribution(countryDistData);
       })
       .catch(() => setReport(null))
       .finally(() => setLoading(false));
@@ -124,7 +126,7 @@ export default function LinkDashboard({ params }: ILinkDashboard) {
                   <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip />
-                  <Line type="monotone" dataKey="clicks" stroke="#8884d8" />
+                  <Line type="monotone" dataKey="clicks" stroke="#291749" />
                 </LineChart>
               </ResponsiveContainer>
             )}
@@ -143,7 +145,7 @@ export default function LinkDashboard({ params }: ILinkDashboard) {
                   <XAxis dataKey="country" />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="clicks" fill="#8884d8" />
+                  <Bar dataKey="clicks" fill="#291749" />
                 </BarChart>
               </ResponsiveContainer>
             )}

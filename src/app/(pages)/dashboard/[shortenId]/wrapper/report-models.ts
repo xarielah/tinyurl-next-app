@@ -23,5 +23,8 @@ export interface ReportsResult {
 
 export interface ShortURLEvent {
   timestamp: number;
-  location: string;
+  country: string;
+  city: string;
+  latitude: number;
+  longitude: number;
 }
