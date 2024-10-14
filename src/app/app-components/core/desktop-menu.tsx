@@ -17,7 +17,8 @@ export default function DesktopMenu() {
           {item.name}
         </Link>
       ))}
-      {user ? <UserSignedIn user={user} /> : <UserIsNotSigned />}
+      {user === null && <UserIsNotSigned />}
+      {user && <UserSignedIn user={user} />}
     </div>
   );
 }

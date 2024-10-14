@@ -43,7 +43,8 @@ export default function MobileMenu({ isOpen, setIsOpen }: IMobileMenu) {
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />
-        {user ? <AuthenticatedDropdownContent /> : <LoginDropdownItem />}
+        {user && <AuthenticatedDropdownContent />}
+        {user === null && <LoginDropdownItem />}
       </DropdownMenuContent>
     </DropdownMenu>
   );
