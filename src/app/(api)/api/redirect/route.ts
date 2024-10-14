@@ -14,15 +14,13 @@ export async function POST(req: Request) {
     const payload = body.payload;
     const action = body.action;
     if (action === RedirectActions.GET_REDIRECT) {
-      const { country, countryRegion, latitude, longitude, flag } =
-        geolocation(req);
+      const { country, city, latitude, longitude } = geolocation(req);
       const redirectPayload: RedirectPayload = {
         shortId: payload.shortId,
         locationInformation: {
           country: country || "",
-          countryRegion: countryRegion || "",
+          city: city || "",
           latitude: latitude || "",
-          flag: flag || "",
           longitude: longitude || "",
         },
       };

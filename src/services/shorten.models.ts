@@ -2,10 +2,9 @@ export interface RedirectPayload {
   shortId: string;
   locationInformation: {
     country?: string;
-    countryRegion?: string;
     latitude?: string;
     longitude?: string;
-    flag?: string;
+    city?: string;
   };
 }
 
