@@ -12,10 +12,7 @@ export default function RedirectLoader({ redirectUrl }: any) {
   useEffect(() => {
     shortenService
       .getRedirectData(redirectUrl)
-      .then((res) => {
-        console.log(res);
-        setResult(res.data.url);
-      })
+      .then((res) => setResult(res.data.url))
       .catch(() => setResult(null));
   }, []);
 

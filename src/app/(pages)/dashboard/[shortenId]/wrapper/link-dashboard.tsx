@@ -19,18 +19,15 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import {
+  type ClicksOverTime,
+  type CountryDistribution,
+  type ReportsResult,
+  type ShortURLEvent,
+} from "./report-models";
+import { clicksByDateArray } from "./utils";
 
-const clicksOverTime = [
-  { date: "2023-06-01", clicks: 10 },
-  { date: "2023-06-02", clicks: 15 },
-  { date: "2023-06-03", clicks: 8 },
-  { date: "2023-06-04", clicks: 20 },
-  { date: "2023-06-05", clicks: 12 },
-  { date: "2023-06-06", clicks: 18 },
-  { date: "2023-06-07", clicks: 25 },
-];
-
-const countryDistribution = [
+const countryDistMock = [
   { country: "USA", clicks: 45 },
   { country: "UK", clicks: 30 },
   { country: "Canada", clicks: 25 },
@@ -49,14 +46,29 @@ interface ILinkDashboard {
 export default function LinkDashboard({ params }: ILinkDashboard) {
   const { shortenId } = params;
   const [loading, setLoading] = useState<boolean>(true);
-  const [report, setReport] = useState<any>();
+  const [report, setReport] = useState<ReportsResult | null>(null);
+  const [clicksOverTime, setClicksOverTime] = useState<ClicksOverTime[]>([]);
+  const [countryDistribution, setCountryDistribution] = useState<
+    CountryDistribution[]
+  >([]);
+  const shortURL = `${window.location.origin}/r/${shortenId}`;
+
   // Show notfound
   if (!shortenId) return notFound();
 
   useEffect(() => {
     shortenService
       .getReportsByShortId(shortenId)
-      .then((res) => setReport(res.data.result))
+      .then((res) => {
+        // Set reports data
+        setReport(res.data.result);
+        // Set clicks over time
+        const events = res.data.result.events as ShortURLEvent[];
+        const clicksOverTimeData = clicksByDateArray(events);
+        setClicksOverTime(clicksOverTimeData);
+        // Set country distribution
+        setCountryDistribution([]);
+      })
       .catch(() => setReport(null))
       .finally(() => setLoading(false));
   }, []);
@@ -81,19 +93,22 @@ export default function LinkDashboard({ params }: ILinkDashboard) {
           </CardHeader>
           <CardContent>
             <p>
-              <strong>Short URL:</strong> https://tinyurl.xarielah.dev/r/
-              {shortenId}
+              <strong>Short URL:</strong>{" "}
+              <Link href={shortURL}>{shortURL}</Link>
             </p>
             <p>
               <strong>Original URL:</strong>{" "}
-              https://www.example.com/very/long/url
+              <Link href={report.url}>{report.url}</Link>
             </p>
             <p>
               <strong>Total Clicks:</strong> {report.count}
             </p>
-            <p>
-              <strong>Created On:</strong> June 1, 2023
-            </p>
+            {report.createdAt && (
+              <p>
+                <strong>Created On:</strong>{" "}
+                {new Date(report.createdAt).toLocaleString("he-IL")}
+              </p>
+            )}
           </CardContent>
         </Card>
         <Card>
@@ -101,15 +116,18 @@ export default function LinkDashboard({ params }: ILinkDashboard) {
             <CardTitle>Clicks Over Time</CardTitle>
           </CardHeader>
           <CardContent className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={clicksOverTime}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Line type="monotone" dataKey="clicks" stroke="#8884d8" />
-              </LineChart>
-            </ResponsiveContainer>
+            {clicksOverTime.length === 0 && <NoDataToDisplay />}
+            {clicksOverTime && clicksOverTime.length > 0 && (
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={clicksOverTime}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="clicks" stroke="#8884d8" />
+                </LineChart>
+              </ResponsiveContainer>
+            )}
           </CardContent>
         </Card>
         <Card className="md:col-span-2">
@@ -117,18 +135,25 @@ export default function LinkDashboard({ params }: ILinkDashboard) {
             <CardTitle>Country Distribution</CardTitle>
           </CardHeader>
           <CardContent className="h-[400px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={countryDistribution}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="country" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="clicks" fill="#8884d8" />
-              </BarChart>
-            </ResponsiveContainer>
+            {countryDistribution.length === 0 && <NoDataToDisplay />}
+            {countryDistribution && countryDistribution.length > 0 && (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={countryDistribution}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="country" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="clicks" fill="#8884d8" />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
           </CardContent>
         </Card>
       </div>
     </div>
   );
+}
+
+function NoDataToDisplay() {
+  return <p className="text-center text-gray-600">No data to display</p>;
 }

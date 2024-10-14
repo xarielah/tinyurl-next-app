@@ -7,3 +7,7 @@ export enum ShortenActions {
 export enum StatsActions {
   GET_REPORTS = "get-reports",
 }
+
+export enum RedirectActions {
+  GET_REDIRECT = "get-redirect",
+}

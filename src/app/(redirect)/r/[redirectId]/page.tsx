@@ -22,10 +22,10 @@ export default function Redirect({ params }: IRedirect) {
     return () => clearTimeout(to);
   }, [seconds]);
 
+  if (loading) return <LoadingLayout seconds={seconds} />;
   return (
     <section>
-      {loading ? <LoadingLayout seconds={seconds} /> : ""}
-      {!loading ? <RedirectLoader redirectUrl={params.redirectId} /> : ""}
+      <RedirectLoader redirectUrl={params.redirectId} />
     </section>
   );
 }

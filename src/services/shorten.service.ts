@@ -1,8 +1,13 @@
-import { ShortenActions, StatsActions } from "@/app/(api)/actions";
+import {
+  RedirectActions,
+  ShortenActions,
+  StatsActions,
+} from "@/app/(api)/actions";
 import { ShortenLink } from "@/app/(pages)/dashboard/(page-components)/data-table.types";
 import { AxiosResponse } from "axios";
 import { axiosInternal } from "./axios-internal.client";
 import { axiosClient } from "./axios.client";
+import { RedirectPayload, RedirectResult } from "./shorten.models";
 
 // Helper function
 
@@ -15,7 +20,8 @@ function _getTokenHeader(token: string) {
   };
 }
 
-// External API calls
+// External API calls are used for calling the backend API.
+// We use these functions WITHIN NEXTJS INTERNAL API.
 
 export function createShortenURLExtrenal(url: string, token: string) {
   return axiosClient.post<{ id: string; url: string; shortId: string }>(
@@ -41,7 +47,19 @@ export function deleteShortenedLinkExternal(shortId: string, token: string) {
   return axiosClient.delete(`/shorten/${shortId}`, _getTokenHeader(token));
 }
 
-// Internal Next.js API calls
+export function getRedirectDataExternal(
+  payload: RedirectPayload,
+  token: string
+) {
+  return axiosClient.post<RedirectResult>(
+    `/redirect`,
+    payload,
+    _getTokenHeader(token)
+  );
+}
+
+// Internal calls are used for calling NextJS internal API.
+// We use these function internall WITHIN COMPONENTS AND PAGES.
 
 export function createShortenURL(url: string) {
   return axiosInternal.post("/api/shorten", {
@@ -75,5 +93,8 @@ export function getReportsByShortId(shortId: string) {
 export function getRedirectData(
   shortId: string
 ): Promise<AxiosResponse<{ url: string }>> {
-  return axiosClient.post(`/redirect/${shortId}`);
+  return axiosInternal.post(`/api/redirect`, {
+    action: RedirectActions.GET_REDIRECT,
+    payload: { shortId },
+  });
 }
