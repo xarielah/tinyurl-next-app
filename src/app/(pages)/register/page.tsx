@@ -8,6 +8,11 @@ import AuthRule from "@/wrappers/auth-rule";
 import Link from "next/link";
 import { useState } from "react";
 
+interface RegisterErrors {
+  message: string;
+  target: string;
+}
+
 interface IRegisterFields {
   username: string;
   email: string;
@@ -46,16 +51,20 @@ export default function Register() {
     await authService
       .registerInternal(payloadBody)
       .then((res) => {
-        if (res.status === 201)
+        if (res.status === 201) {
+          window.location.replace("/");
           return setSuccess("Account created successfully!");
-        else return Promise.reject(res.data);
+        } else {
+          return Promise.reject(res.data);
+        }
       })
       .catch((err) => {
-        if (Array.isArray(err.errors)) {
-          const msg = err.errors.map((e: any) => e.message);
+        const possiblyErrorsArray = err.response?.data?.errors;
+        if (Array.isArray(possiblyErrorsArray)) {
+          const msg = possiblyErrorsArray.map((e: RegisterErrors) => e.message);
           setErrMsg(msg);
         } else setErrMsg(["An error occurred. Please try again."]);
-        setFields({ username: "", email: "", password: "" });
+        setFields({ ...fields, password: "" });
       });
   };
 
