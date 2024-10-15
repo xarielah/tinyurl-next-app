@@ -39,32 +39,13 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     resetMsgs();
-    const payloadBody = JSON.stringify({
-      username: fields.username,
-      password: fields.password,
-    });
-    // await fetch("/api/auth/login", {
-    //   body: payloadBody,
-    //   method: "POST",
-    // })
-    //   .then((res) => (res.ok ? null : Promise.reject(res)))
-    //   .then(() => {
-    //     setSuccess("Logged in successfully!");
-    //     setFields({ username: "", password: "" });
-    //     setTimeout(() => router.refresh(), 1000);
-    //   })
-    //   .catch((err) => {
-    //     if (err.status === 401) setErrMsg("Invalid username or password");
-    //     else setErrMsg("An error occurred. Please try again.");
-    //     setFields({ username: "", password: "" });
-    //   });
     await authService
       .loginInternal({ username: fields.username, password: fields.password })
       .then((res) => (res.status === 200 ? null : Promise.reject(res)))
       .then(() => {
         setSuccess("Logged in successfully!");
         setFields({ username: "", password: "" });
-        setTimeout(() => router.refresh(), 1000);
+        window.location.replace("/");
       })
       .catch((err) => {
         if (err.status === 401) setErrMsg("Invalid username or password");
