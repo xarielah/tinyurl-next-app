@@ -43,7 +43,7 @@ export default function ActionsCell({ row }: IActionsCell) {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
             <span className="sr-only">Open menu</span>
-            <DotsHorizontalIcon className="h-4 w-4" />
+            <DotsHorizontalIcon className="h-4 w-4 text-zinc-600" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">

@@ -9,6 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        lavenderpurple: "#6c63ff",
+        lavenderpink: "#f8a4d8",
+        cornflower: "#6c63ff",
+        shuttle: "#5a6170",
+        gullgray: "#9da6b8",
+        alto: "#dadfea",
+        dimmed: "#33333f",
+        primary: "#1c1c29",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -18,10 +26,6 @@ const config: Config = {
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
-        },
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",

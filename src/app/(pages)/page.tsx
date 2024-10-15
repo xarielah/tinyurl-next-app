@@ -19,7 +19,7 @@ export default function Home() {
   if (createdUrl)
     return <CreatedUrl result={createdUrl} reset={resetCreatedUrl} />;
   return (
-    <CommonPage title="">
+    <CommonPage>
       <div className="w-full space-y-6 text-center">
         <ShortenURL setCreatedUrl={(data) => setCreatedUrl(data)} />
       </div>

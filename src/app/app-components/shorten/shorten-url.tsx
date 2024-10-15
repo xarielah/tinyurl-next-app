@@ -79,7 +79,7 @@ export default function ShortenURL({ setCreatedUrl }: IShortenURL) {
         <>
           {errorMessage && <DisplayErrorAlert msg={errorMessage} />}
           <form
-            className="flex space-x-2 max-w-4xl mx-auto"
+            className="flex md:space-x-2 md:flex-row gap-3 md:gap-0 flex-col max-w-4xl mx-auto"
             onSubmit={handleSubmit}
           >
             <Input

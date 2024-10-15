@@ -49,8 +49,8 @@ interface IAboutParagraph {
 
 function AboutParagraph({ title, children }: IAboutParagraph) {
   return (
-    <div>
-      <h3 className="text-2xl font-bold mb-4 text-slate-800">{title}</h3>
+    <div className="bg-gullgray/10 p-12 rounded-2xl">
+      <h3 className="text-2xl font-bold mb-4">{title}</h3>
       <p className="border-l-4 pt-1 pl-4 ml-[0.55rem]">{children}</p>
     </div>
   );

@@ -84,9 +84,9 @@ export default function CreatedUrl({ result, reset }: ICreateUrl) {
                 <Input value={shortenedUrl} readOnly className="flex-grow" />
                 <Button onClick={copyToClipboard} variant="outline" size="icon">
                   {isCopied ? (
-                    <Check className="w-4 h-4" />
+                    <Check className="w-4 h-4 text-white" />
                   ) : (
-                    <Clipboard className="h-4 w-4" />
+                    <Clipboard className="h-4 w-4 text-white" />
                   )}
 
                   <span className="sr-only">Copy shortened URL</span>

@@ -8,10 +8,10 @@ interface ICommonPage {
 
 export default function CommonPage({ title, children, rightOf }: ICommonPage) {
   return (
-    <div className="w-full max-w-6xl">
+    <div className="w-full max-w-6xl rounded-2xl p-8">
       <div
-        className={`mb-12 pb-3 flex flex-col gap-4 md:flex-row md:gap-0 items-center justify-between ${
-          title ? "border-b-4 border-b-slate-200" : ""
+        className={`md:mb-12 md:pb-6 flex flex-col gap-4 md:flex-row md:gap-0 items-center justify-between ${
+          title ? "border-b-4 border-b-dimmed/10" : ""
         }`}
       >
         {title && (

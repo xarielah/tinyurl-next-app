@@ -48,7 +48,7 @@ export default function DevGitHub() {
         </span>
         <Link
           href={user.html_url}
-          className="flex gap-2 text-slate-800 p-2 items-center w-max ease-in-out duration-300 hover:-translate-y-2 cursor-pointer rounded-md"
+          className="flex gap-2 p-2 items-center w-max ease-in-out duration-300 hover:-translate-y-2 cursor-pointer rounded-md"
         >
           <Image
             src={user.avatar_url}

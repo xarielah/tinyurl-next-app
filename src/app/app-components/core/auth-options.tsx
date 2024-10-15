@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SessionUser } from "@/services/auth.service";
 import AuthRule from "@/wrappers/auth-rule";
-import { UserCircle } from "lucide-react";
+import { UserCircle2Icon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -22,7 +22,7 @@ export function UserSignedIn({ user }: IUserSignedIn) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex items-center hover:bg-gray-400/10 rounded-lg text-sm cursor-pointer px-2 py-1 ease-in-out duration-300 text-slate-900 gap-2 justify-center">
+        <div className="flex items-center hover:bg-gray-400/10 rounded-lg text-sm cursor-pointer px-2 py-1 ease-in-out duration-300 gap-2 justify-center">
           <Avatar className="shadow-sm broder-slate-950 border-2 w-8 h-8">
             <AvatarFallback className="uppercase bg-gray-200/80">
               {user.username.substring(0, 2)}
@@ -42,8 +42,8 @@ export function UserIsNotSigned() {
   return (
     <AuthRule mustBe="unauthenticated">
       <Link href="/login">
-        <Button variant="outline" size="sm">
-          <UserCircle className="h-5 w-5 mr-2" />
+        <Button size="sm">
+          <UserCircle2Icon className="h-5 w-5 mr-2" />
           Sign In
         </Button>
       </Link>
