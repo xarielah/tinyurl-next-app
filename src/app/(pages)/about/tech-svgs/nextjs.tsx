@@ -1,8 +1,7 @@
 export default function NextJS() {
   return (
     <svg
-      width="101"
-      height="100"
+      className="icon-svg"
       viewBox="0 0 256 256"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"

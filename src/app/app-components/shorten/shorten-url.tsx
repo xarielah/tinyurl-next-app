@@ -8,6 +8,7 @@ import * as shortenService from "@/services/shorten.service";
 import { AppState } from "@/wrappers/state-wrapper";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
+import GenericLoading from "../core/loading";
 
 interface IShortenURL {
   setCreatedUrl: (data: IShortenedURLResult) => void;
@@ -52,15 +53,15 @@ export default function ShortenURL({ setCreatedUrl }: IShortenURL) {
       .then((data) => setCreatedUrl(data))
       .then(() => setUrl(""))
       .catch((err) => {
-        setErrors(err);
+        setErrors(err.status);
         setUrl("");
       })
       .finally(() => setLoading(false));
   };
 
-  const setErrors = (err: any) => {
-    if (err.status === 400) setErrorMessage("URL must be a valid URL address");
-    else if (err.status === 401)
+  const setErrors = (status: number) => {
+    if (status === 400) setErrorMessage("URL must be a valid URL address");
+    else if (status === 401)
       setErrorMessage("You must be logged in to shorten a URL");
     else setErrorMessage("An error occurred. Please try again.");
   };
@@ -73,12 +74,14 @@ export default function ShortenURL({ setCreatedUrl }: IShortenURL) {
       <p className="text-muted-foreground">
         Paste your long URL below and we'll shorten it for you in seconds.
       </p>
-      {loading ? (
-        <p className="text-muted-foreground">Loading...</p>
-      ) : (
+      {loading && <GenericLoading />}
+      {!loading && (
         <>
-          {errorMessage ? <DisplayErrorAlert msg={errorMessage} /> : ""}
-          <form className="flex space-x-2" onSubmit={handleSubmit}>
+          {errorMessage && <DisplayErrorAlert msg={errorMessage} />}
+          <form
+            className="flex space-x-2 max-w-4xl mx-auto"
+            onSubmit={handleSubmit}
+          >
             <Input
               value={url}
               onChange={onUrlChange}
@@ -96,5 +99,9 @@ export default function ShortenURL({ setCreatedUrl }: IShortenURL) {
 }
 
 function DisplayErrorAlert({ msg }: { msg: string }) {
-  return <Alert variant="destructive">{msg}</Alert>;
+  return (
+    <Alert variant="destructive" className="max-w-4xl mx-auto">
+      {msg}
+    </Alert>
+  );
 }

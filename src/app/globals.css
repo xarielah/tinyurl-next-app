@@ -57,7 +57,11 @@ a:hover {
 }
 
 .tech-icons {
-  @apply hover:scale-[1.1] ease-in-out duration-300 p-4 rounded-md hover:bg-gray-50/70 hover:shadow-xl;
+  @apply hover:-translate-y-2 ease-in-out duration-300 p-2 rounded-full hover:bg-gray-100;
+}
+
+.icon-svg {
+  @apply w-8 h-8;
 }
 
 @layer base {

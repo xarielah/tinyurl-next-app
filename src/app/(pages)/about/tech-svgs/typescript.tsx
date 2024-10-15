@@ -1,12 +1,10 @@
 export default function TypeScript() {
   return (
     <svg
-      width="100"
-      height="100"
+      className="icon-svg rounded-xl"
       viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="rounded-xl"
     >
       <path d="M0 0.000488281H100V100H0V0.000488281Z" fill="#017ACB" />
       <path

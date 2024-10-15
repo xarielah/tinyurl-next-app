@@ -1,172 +1,57 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
-import { useState } from "react";
-import ExpressContent from "./tech-content/express-content";
-import MongoDBContent from "./tech-content/mongodb-content";
-import NextJSContent from "./tech-content/nextjs-content";
-import ReactJSContent from "./tech-content/reactjs-content";
-import RedisContent from "./tech-content/redis-content";
-import TSContent from "./tech-content/ts-content";
-import ExpressJS from "./tech-svgs/express";
-import MongoDB from "./tech-svgs/mongodb";
-import NextJS from "./tech-svgs/nextjs";
-import ReactJS from "./tech-svgs/reactjs";
-import Redis from "./tech-svgs/redis";
-import TypeScript from "./tech-svgs/typescript";
-
-type DrawerData = {
-  title: string;
-  content: any;
-};
-
-type DrawerDataKeys =
-  | "ts"
-  | "redis"
-  | "mongodb"
-  | "reactjs"
-  | "nextjs"
-  | "express";
-type DrawerDataObject = {
-  [key in DrawerDataKeys]: DrawerData;
-};
+import CommonPage from "@/app/app-components/core/common-page";
+import DevGitHub from "./dev-github";
+import TechContainer from "./tech-container";
 
 export default function About() {
-  const github = "https://github.com/xarielah";
-  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
-  const close = () => setDrawerOpen(false);
-  const [data, setData] = useState<DrawerData>({
-    title: "",
-    content: () => <></>,
-  });
-
-  const techInformation: DrawerDataObject = {
-    ts: {
-      title: "TypeScript",
-      content: TSContent,
-    },
-    redis: {
-      title: "Redis",
-      content: RedisContent,
-    },
-    mongodb: {
-      title: "MongoDB",
-      content: MongoDBContent,
-    },
-    reactjs: {
-      title: "React",
-      content: ReactJSContent,
-    },
-    nextjs: {
-      title: "Next.js",
-      content: NextJSContent,
-    },
-    express: {
-      title: "Express",
-      content: ExpressContent,
-    },
-  };
-
-  const openTechInfo = (key: DrawerDataKeys) => {
-    setData(techInformation[key]);
-    setDrawerOpen(true);
-  };
-
   return (
-    <section>
-      <TechDrawer data={data} close={close} isOpen={drawerOpen} />
-      <div className="max-w-3xl space-y-8 mx-auto">
-        <h1 className="font-bold text-4xl mb-2">About</h1>
-        <p>
-          TinyURL is a shortening urls service that{" "}
-          <a href={github} className="font-bold" target="_blank">
-            I
-          </a>{" "}
-          developed in order to learn more about web development, caching,
-          Next.js server actions, authentication and governing data.
-        </p>
-        <p>The project includes the following technologies:</p>
-        <div className="flex flex-col md:flex-row justify-between">
-          <div className="flex flex-col gap-2 space-y-8">
-            <h2 className="font-bold text-2xl">Programming Languages:</h2>
-            <article className="mt-8">
-              <button className="tech-icons" onClick={() => openTechInfo("ts")}>
-                <TypeScript />
-              </button>
-            </article>
-          </div>
-          <div className="flex flex-col gap-2 space-y-8 mt-8 md:mt-0">
-            <h2 className="font-bold text-2xl">Frontend Technologies:</h2>
-            <article className="space-x-2">
-              <button
-                className="tech-icons"
-                onClick={() => openTechInfo("nextjs")}
-              >
-                <NextJS />
-              </button>
-              <button
-                className="tech-icons"
-                onClick={() => openTechInfo("reactjs")}
-              >
-                <ReactJS />
-              </button>
-            </article>
-          </div>
-        </div>
-        <h2 className="font-bold text-2xl">Backend Technologies:</h2>
-        <article className="space-x-2">
-          <button className="tech-icons" onClick={() => openTechInfo("redis")}>
-            <Redis />
-          </button>
-          <button
-            className="tech-icons"
-            onClick={() => openTechInfo("mongodb")}
-          >
-            <MongoDB />
-          </button>
-          <button
-            className="tech-icons"
-            onClick={() => openTechInfo("express")}
-          >
-            <ExpressJS />
-          </button>
-        </article>
-      </div>
-    </section>
+    <CommonPage title="About this project" rightOf={<TechContainer />}>
+      <article className="space-y-12">
+        <AboutParagraph title="What is this project?">
+          Shorten (SHRT) is a URL shortening service that allows users to
+          shorten long URLs into short, shorter-to-embed links.
+        </AboutParagraph>
+        <AboutParagraph title="Why did I create this project?">
+          I created this project to learn and practice FullStack development,
+          using both frontend and backend technologies, authentication and
+          authorization strategies, as well as practice working with MongoDB as
+          a document-based database and Redis as a caching database service.
+        </AboutParagraph>
+        <AboutParagraph title="How does it work?">
+          Users can paste a long URL into the input field, and the server will
+          generate a unique short URL that will redirect to the original URL.
+          Authenticated users can create and manage links, as well as deriving
+          business-value from their analysis dashboard.
+          <br />
+          <br />
+          I'm using MongoDB for storing Users, Links, and Stats, Redis for
+          storing <i>shortId-to-URL</i> and quickly accessing it. For each visit
+          on a redirect link the system will register an event and include the
+          redirected user's geolocation which is retrieved using Vercel
+          Functions.
+          <br />
+          <br />
+          The frontend is built with Next.js, and the backend is built with
+          Express. I'm using Next.js API as a facade to the express backend for
+          various reasons such as dealing with blockage of third-party cookies,
+          securly enforcing illegal visits, etc...
+        </AboutParagraph>
+        <DevGitHub />
+      </article>
+    </CommonPage>
   );
 }
 
-interface ITechDrawer {
-  close: () => void;
-  isOpen: boolean;
-  data: DrawerData;
+interface IAboutParagraph {
+  title: string;
+  children?: React.ReactNode;
 }
 
-function TechDrawer({ close, isOpen, data }: ITechDrawer) {
-  const { title, content: Content } = data;
+function AboutParagraph({ title, children }: IAboutParagraph) {
   return (
-    <Drawer open={isOpen}>
-      <DrawerContent className="md:max-w-4xl mx-auto">
-        <DrawerHeader>
-          <DrawerTitle className="text-5xl">{title}</DrawerTitle>
-          {/* <DrawerDescription className="text-xl"></DrawerDescription> */}
-          <article className="space-y-4 mt-4">
-            <Content />
-          </article>
-        </DrawerHeader>
-        <DrawerFooter>
-          <Button asChild className="w-max md:w-full mx-auto" onClick={close}>
-            <DrawerClose>Close</DrawerClose>
-          </Button>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+    <div>
+      <h3 className="text-2xl font-bold mb-4 text-slate-800">{title}</h3>
+      <p className="border-l-4 pt-1 pl-4 ml-[0.55rem]">{children}</p>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import CommonPage from "../app-components/core/common-page";
 import CreatedUrl from "../app-components/shorten/created-url";
 import ShortenURL from "../app-components/shorten/shorten-url";
 
@@ -18,8 +19,10 @@ export default function Home() {
   if (createdUrl)
     return <CreatedUrl result={createdUrl} reset={resetCreatedUrl} />;
   return (
-    <div className="w-full max-w-md space-y-6 text-center">
-      <ShortenURL setCreatedUrl={(data) => setCreatedUrl(data)} />
-    </div>
+    <CommonPage title="">
+      <div className="w-full space-y-6 text-center">
+        <ShortenURL setCreatedUrl={(data) => setCreatedUrl(data)} />
+      </div>
+    </CommonPage>
   );
 }

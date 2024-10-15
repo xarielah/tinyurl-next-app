@@ -24,7 +24,7 @@ export default async function RootLayout({
           className={`${font.className} antialiased flex flex-col min-h-screen`}
         >
           <Header />
-          <main className="flex-grow flex items-center justify-center px-6">
+          <main className="flex-grow flex justify-center pt-12 px-6">
             {children}
             <Toaster />
           </main>
