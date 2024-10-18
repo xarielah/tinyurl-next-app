@@ -54,7 +54,7 @@ export function UserIsNotSigned() {
 export function AuthenticatedDropdownContent() {
   const router = useRouter();
   const doLogout = async () => {
-    await logout().then(() => router.refresh());
+    await logout().finally(() => window.location.reload());
   };
   return (
     <>
